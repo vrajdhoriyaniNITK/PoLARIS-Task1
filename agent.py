@@ -1,10 +1,11 @@
 import cv2
 import os
 from datetime import datetime as dt
+import requests
 # imported the opensource library OpenCV , OS , datetime etc.  
 
 print("--- Fortify Agent Started ---")
-    
+
 cap = cv2.VideoCapture(0) 
 # cv2.videoCapture(0) --> inbuilt function of cv2 lib to capture the video using webcame - (0) indicates default 
 # camera 
@@ -38,15 +39,28 @@ filepath = os.path.join(folder_name,filename)
 cv2.imwrite(filepath,frame)
 # implemented .imwrite to create a file at filepath , which included frame 
 
+
+
+
+SERVER_URL = "http://127.0.0.1:2000/uploads"
+
+with open(filepath, "rb") as img_file:
+    files = {
+        "img": img_file
+    }
+
+    response = requests.post(SERVER_URL, files=files)
+
+print("Server Response:", response.status_code)
+print("Server Data:", response.json())
+
+
 print("Capture Status: SUCCESS")
 print("Local Storage:", filepath)
 # final Statements 
 
 cap.release()
 # released webcam so that it can be used somewhere else. 
-
-
-cap.release()
 cv2.destroyAllWindows()
 
 
