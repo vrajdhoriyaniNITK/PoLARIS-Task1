@@ -49,10 +49,14 @@ with open(filepath, "rb") as img_file:
         "img": img_file
     }
 
-    response = requests.post(SERVER_URL, files=files)
+    data = {
+        "device_id":"CAMERA_01"
+    }
+
+    response = requests.post(SERVER_URL, files=files,data=data)
 
 print("Server Response:", response.status_code)
-print("Server Data:", response.json())
+print("Raw Server Response:", response.text)
 
 
 print("Capture Status: SUCCESS")
